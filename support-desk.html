@@ -85,7 +85,7 @@
 
         <div class="row g-3">
           <!-- Ticket Lists Table -->
-          <div class="col-12 col-lg-8">
+          <div class="col-12">
             <div class="card shadow-sm border-0 bg-white h-100">
               <div class="card-header bg-white border-bottom py-3">
                 <h5 class="m-0 fw-bold"><i class="fa fa-list"></i> ใบติดตามตั๋วคุมฝ่ายบริการ (Support Tickets Dashboard)</h5>
@@ -109,28 +109,6 @@
                       <!-- Loaded via JS -->
                     </tbody>
                   </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Customer Help Desk and Simulation -->
-          <div class="col-12 col-lg-4">
-            <div class="card shadow-sm border-0 h-100 bg-white">
-              <div class="card-header bg-danger text-white">
-                <h6 class="m-0 fw-bold"><i class="fab fa-rocketchat"></i> สนทนาจำลองหลังบ้าน / Diagnostic Terminal</h6>
-              </div>
-              <div class="card-body d-flex flex-column" style="height: 400px;">
-                <p class="text-muted text-xs mb-2">จำลองระบบซักถามความคลาดเคลื่อนทางเทคนิควิศวกรรมสากล (AI Support Interactive Panel)</p>
-                <div class="chat-viewport flex-grow-1 overflow-y-auto mb-3 border p-2 bg-light rounded" id="diag-chat-box" style="font-size:0.85rem;">
-                  <div class="mb-2">
-                    <span class="badge bg-danger text-wrap p-1.5 mb-1 d-inline-block">AI Diagnostic Desk:</span>
-                    <div class="bg-white p-2 rounded shadow-xs text-dark">สวัสดีครับ ฝ่ายสนับสนุนวิศวกรรมบ่อวิน (IKM Support) ยินดีบริการประเมินความดันปั๊ม และค่าไฮโดรลิก กรุณาเลือกพิมพ์แจ้งคำถามสอบถามได้เลยครับ</div>
-                  </div>
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control form-control-sm" id="diag-chat-input" placeholder="พิมพ์ถามค่า Calibration โบลเวอร์...">
-                  <button class="btn btn-danger btn-sm" onclick="sendDiagMsg()"><i class="fa fa-paper-plane"></i></button>
                 </div>
               </div>
             </div>
@@ -378,44 +356,6 @@
         renderTicketsTable();
         showToastAlert('ปรับสถานะตั๋วช่างกำลังวิ่งเข้าปะการโรงแล้ว', 'warning');
       }
-    }
-
-    // Diagnostic AIChat Simulation Panel
-    function sendDiagMsg() {
-      const input = document.getElementById('diag-chat-input');
-      const val = input.value.trim();
-      if (!val) return;
-
-      const chatBox = document.getElementById('diag-chat-box');
-      
-      // Add custom user msg
-      const userHtml = `
-        <div class="mb-2 text-end">
-          <span class="badge bg-primary text-wrap p-1.5 mb-1 d-inline-block">You:</span>
-          <div class="bg-indigo text-white p-2 rounded shadow-xs text-start d-inline-block" style="max-width:85%">${val}</div>
-        </div>
-      `;
-      chatBox.insertAdjacentHTML('beforeend', userHtml);
-      input.value = '';
-
-      // Auto reply simulation after 800ms
-      setTimeout(() => {
-        let reply = "ติตต่อรับคำแนะนำเสริม: หน่วยวัดและใบสอบเทียบได้รับการรับรอง ISO/IEC 17025 ทางวิศวกร IKM จะเช็คเกจปั๊มตัวดังกล่าวให้ด่วนภายใน 1 ชั่วโมงครับ!";
-        if (val.toLowerCase().includes('pressure') || val.includes('ความดัน')) {
-          reply = "เกณฑ์ปกติของ Hydrotest Pump #04 แรงดันสูงสุดอยู่ที่ 15,000 PSI หากพบแรงดันกระชากเกินกรุณาลอยวาล์วบายพาสนิรภัยทันทีครับ";
-        } else if (val.toLowerCase().includes('cert') || val.includes('สอบเทียบ')) {
-          reply = "เกณฑ์ Cert ISO จะส่งเป็น QR Code ไปรอยังกล่องอุปกรณ์ ลูกค้าสามารถยิงเลนส์สแกนอ่านตารางความคลาดละเอียดได้เลยครับ";
-        }
-
-        const replyHtml = `
-          <div class="mb-2">
-            <span class="badge bg-danger text-wrap p-1.5 mb-1 d-inline-block">AI Diagnostic Desk:</span>
-            <div class="bg-white p-2 rounded shadow-xs text-dark">${reply}</div>
-          </div>
-        `;
-        chatBox.insertAdjacentHTML('beforeend', replyHtml);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, 700);
     }
   </script>
 </body>
